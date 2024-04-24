@@ -3,7 +3,7 @@ import ContactForm from "../ContactForm/ContactForm";
 import SearchBox from "../SearchBox/SearchBox";
 import ContactList from "../ContactList/ContactList";
 
-// import css from "./App.module.css";
+import css from "./App.module.css";
 
 const initialContacts = [
   { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
@@ -16,9 +16,9 @@ export default function App() {
   const [contacts, setContacts] = useState(initialContacts);
   const [searchValue, setSearchValue] = useState("");
 
-  const addContact = (newContacts) => {
-    setContacts((prevContacts) => {
-      return [...prevContacts, newContacts];
+  const addContact = (newContact) => {
+    setContacts(() => {
+      return [...contacts, newContact];
     });
   };
 
@@ -27,7 +27,7 @@ export default function App() {
   );
 
   return (
-    <div>
+    <div className={css.container}>
       <h1>Phonebook</h1>
       <ContactForm onAdd={addContact} />
       <SearchBox value={searchValue} onSearch={setSearchValue} />
