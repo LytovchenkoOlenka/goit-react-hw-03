@@ -7,10 +7,15 @@ import css from "./ContactForm.module.css";
 
 const FormSchema = Yup.object().shape({
   name: Yup.string()
+    .trim()
     .min(3, "Min 3 chars!")
     .max(50, "Max 50 chars!")
+    .matches(/^[^0-9]*$/, "Cannot contain numbers")
     .required("Required"),
-  number: Yup.string().max(13, "Max 13 symbols!").required("Required"),
+  number: Yup.string()
+    .matches(/^[\d-]+$/, "Invalid phone number format")
+    .max(13, "Max 13 symbols!")
+    .required("Required"),
 });
 
 export default function ContactForm({ onAdd }) {
@@ -19,7 +24,7 @@ export default function ContactForm({ onAdd }) {
 
   const handleSubmit = (values, actions) => {
     const id = nanoid();
-    const newContact = { ...values, id: id };
+    const newContact = { id: id, ...values };
     onAdd(newContact);
     actions.resetForm();
   };
@@ -48,7 +53,7 @@ export default function ContactForm({ onAdd }) {
           <Field className={css.input} name="number" id={numberId}></Field>
           <ErrorMessage className={css.error} name="number" component="span" />
         </div>
-        <button className={css.button} type="submit">
+        <button className={css.btn} type="submit">
           Add contact
         </button>
       </Form>
