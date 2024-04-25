@@ -36,16 +36,20 @@ export default function App() {
     });
   };
 
-  const visibleContacts = contacts.filter((contact) => {
-    contact.name.toLowerCase().includes(searchValue.toLowerCase());
-  });
+  const visibleContacts = contacts.filter((contact) =>
+    contact.name.toLowerCase().includes(searchValue.toLowerCase())
+  );
 
   return (
     <div className={css.container}>
       <h1>Phonebook</h1>
       <ContactForm onAdd={addContact} />
       <SearchBox value={searchValue} onSearch={setSearchValue} />
-      <ContactList contacts={visibleContacts} onDelete={deleteContact} />
+      {visibleContacts.length !== 0 ? (
+        <ContactList contacts={visibleContacts} onDelete={deleteContact} />
+      ) : (
+        <p>No contacts found</p>
+      )}
     </div>
   );
 }
